@@ -2,7 +2,7 @@ import "./calculator_styles.sass"
 
 export default function MorgageCalculator () {
     return (
-        <section>
+        <section className="mortage-calculator-container">
             <h1>Mortgage Calculator</h1>
             <form>
                 <fieldset>
