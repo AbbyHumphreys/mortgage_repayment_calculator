@@ -1,10 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import MortgageCalculator from "./components/MortgageCalculator"
 
 function App() {
   return (
-    <h1>New App</h1>
+    <main className='plus-jakarta-sans'>
+      <MortgageCalculator />
+    </main>
   );
 }
 
