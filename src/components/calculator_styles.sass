@@ -36,10 +36,47 @@ button:hover
 .input-wrapper
     display: flex
     align-items: center
+    justify-content: center
     background-color: white
     border: 1px solid #ccc
     border-radius: 5px
     margin-right: 0.5rem
+    line-height: 0
+    padding: 0.1rem
+
+.half-column-container
+    display: flex
+
+.icon-wrapper
+    min-width: 20px
+    background-color: #e4f3fe
+    color: #122F3F
+
+fieldset
+    border: none
+    display: flex
+    flex-direction: column
+    gap: 0.5rem
+
+legend
+    font-weight: bold
+    margin-bottom: 0.5rem
+
+.radio-group
+    display: flex
+    align-items: center
+    justify-content: flex-start
+    border: 2px solid #D3E1E9
+    padding: 0.8rem
+    border-radius: 5px
+    width: 100%
+    cursor: pointer
+    font-weight: 600
+    color: #122F3F
+
+input[type="radio"]
+    background: green
+    color: green
 
 svg
     padding: 0.35rem
@@ -52,6 +89,5 @@ input
     border: none
     background: transparent
     outline: none
-    flex: 1
     font-size: 1rem
     color: #122F3F

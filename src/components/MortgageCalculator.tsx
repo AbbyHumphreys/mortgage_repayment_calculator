@@ -1,6 +1,6 @@
 import "./calculator_styles.sass";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSterlingSign } from "@fortawesome/free-solid-svg-icons";
+import { faSterlingSign, faPercent } from "@fortawesome/free-solid-svg-icons";
 
 export default function MorgageCalculator () {
     return (
@@ -10,25 +10,37 @@ export default function MorgageCalculator () {
                 <fieldset className="input-group">
                     <label htmlFor="mortgage_amount">Mortgage Amount</label>
                     <div className="input-wrapper">
-                        <FontAwesomeIcon icon={faSterlingSign} />
+                        <div className="icon-wrapper">
+                            <FontAwesomeIcon icon={faSterlingSign} />
+                        </div>
                         <input type="number" id="mortgage_amount" name="mortgage_amount" />
                     </div>
                 </fieldset>
-                <fieldset>
-                    <label htmlFor="mortgage_term">Mortgage Term</label>
-                    <input type="number" id="mortgage_term" name="mortgage_term" />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="interest_rate">Interest Rate</label>
-                    <input type="number" id="interest_rate" name="interest_rate" />
-                </fieldset>
+                <div className="half-column-container">
+                    <fieldset>
+                        <label htmlFor="mortgage_term">Mortgage Term</label>
+                        <div className="input-wrapper">
+                            <input type="number" id="mortgage_term" name="mortgage_term" />
+                            <div className="icon-wrapper">
+                                <p>years</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <label htmlFor="interest_rate">Interest Rate</label>
+                        <div className="input-wrapper">
+                            <input type="number" id="interest_rate" name="interest_rate" />
+                            <FontAwesomeIcon icon={faPercent} />
+                        </div>
+                    </fieldset>
+                </div>
                 <fieldset>
                     <legend>Mortgage Type</legend>
-                    <label>
+                    <label className="radio-group">
                         <input type="radio" name="mortgage_type" value="repayment" />
                         Repayment
                     </label>
-                    <label>
+                    <label className="radio-group">
                         <input type="radio" name="mortgage_type" value="interest_only" />
                         Interest Only
                     </label>
