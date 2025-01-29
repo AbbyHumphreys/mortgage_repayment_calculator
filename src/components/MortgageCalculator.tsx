@@ -1,13 +1,18 @@
-import "./calculator_styles.sass"
+import "./calculator_styles.sass";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSterlingSign } from "@fortawesome/free-solid-svg-icons";
 
 export default function MorgageCalculator () {
     return (
         <section className="mortage-calculator-container">
             <h1>Mortgage Calculator</h1>
             <form>
-                <fieldset>
+                <fieldset className="input-group">
                     <label htmlFor="mortgage_amount">Mortgage Amount</label>
-                    <input type="number" id="mortgage_amount" name="mortgage_amount" />
+                    <div className="input-wrapper">
+                        <FontAwesomeIcon icon={faSterlingSign} />
+                        <input type="number" id="mortgage_amount" name="mortgage_amount" />
+                    </div>
                 </fieldset>
                 <fieldset>
                     <label htmlFor="mortgage_term">Mortgage Term</label>
