@@ -5,14 +5,16 @@ import { faSterlingSign, faPercent } from "@fortawesome/free-solid-svg-icons";
 export default function MorgageCalculator () {
     return (
         <section className="mortage-calculator-container">
-            <h1>Mortgage Calculator</h1>
+            
             <form>
+                <div className="mortgage-header-container">
+                    <h1>Mortgage Calculator</h1>
+                    <button className="reset-button">Clear All</button>
+                </div>
                 <fieldset className="input-group">
                     <label htmlFor="mortgage_amount">Mortgage Amount</label>
                     <div className="input-wrapper">
-                        <div className="icon-wrapper">
-                            <FontAwesomeIcon icon={faSterlingSign} />
-                        </div>
+                        <FontAwesomeIcon icon={faSterlingSign} />
                         <input type="number" id="mortgage_amount" name="mortgage_amount" />
                     </div>
                 </fieldset>
@@ -45,7 +47,7 @@ export default function MorgageCalculator () {
                         Interest Only
                     </label>
                 </fieldset>
-                <button>Calculate Repayments</button>
+                <button className="submit-button">Calculate Repayments</button>
             </form>
         </section>
     )

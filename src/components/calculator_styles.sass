@@ -28,6 +28,18 @@ button:hover
     margin: 0
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1)
 
+    @media (max-width: 700px)
+        border-radius: 0
+
+.mortgage-header-container
+    display: flex
+    justify-content: space-between
+
+    @media (max-width: 700px)
+        flex-direction: column
+        justify-content: start
+
+
 .input-group
     display: flex
     flex-direction: column
@@ -48,9 +60,11 @@ button:hover
     display: flex
 
 .icon-wrapper
-    min-width: 20px
+    min-width: 2.5rem
+    text-align: center
     background-color: #e4f3fe
     color: #122F3F
+    padding: 0.2rem
 
 fieldset
     border: none
@@ -75,8 +89,11 @@ legend
     color: #122F3F
 
 input[type="radio"]
-    background: green
-    color: green
+    accent-color: #D7DA2F
+
+.radio-group:has(input[type="radio"]:checked)
+    background:  #fbfbe9
+    border-color: #D7DA2F
 
 svg
     padding: 0.35rem
@@ -91,3 +108,19 @@ input
     outline: none
     font-size: 1rem
     color: #122F3F
+
+.reset-button
+    background: none
+    text-align: end
+    text-decoration: underline
+    font-size: 0.6rem
+    margin-top: 0
+
+    @media (max-width: 700px)
+        text-align: start
+
+h1
+    min-width: 75%
+
+    @media (max-width: 700px)
+        margin-bottom: 0
