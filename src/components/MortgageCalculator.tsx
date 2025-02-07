@@ -3,20 +3,24 @@ import "./calculator_styles.sass";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSterlingSign, faPercent } from "@fortawesome/free-solid-svg-icons";
 
-export default function MorgageCalculator () {
+interface MortgageCalculatorProps {
+    setResults: (results: { repaymentTotal: number; repaymentMonthly: number }) => void;
+}
+
+export default function MorgageCalculator ({ setResults }: MortgageCalculatorProps) {
 
     const [mortgageInfo, setMortgageInfo] = useState({
         amount: 0,
         term: 0,
-        rate: 0
+        rate: 0,
+        mortgageType: 'repayment'
     })
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type } = e.target;
-        console.log(e.target.name)
         setMortgageInfo((prevData) => ({
             ...prevData,
-            [name]: type === "" ? 0 : parseFloat(value),
+            [name]: type === "radio" ? value : value === "" ? 0 : parseFloat(value),
         }))
     }
 
@@ -36,17 +40,32 @@ export default function MorgageCalculator () {
             }));
         }
     };
-console.log(mortgageInfo)
-    function calculateMortgage (e: React.FormEvent) {
-        e.preventDefault();
 
-        const {amount, term, rate} = mortgageInfo
-        console.log("This is Mortgage Info", mortgageInfo)
-        let interest = rate / 100
-        let repaymentTotal = amount * interest
-        let repaymentMonthly = repaymentTotal / term
-        return console.log(repaymentMonthly)
-    }
+    const calculateMortgage = (e: React.FormEvent) => {
+        e.preventDefault();
+    
+        const { amount, term, rate, mortgageType } = mortgageInfo;
+
+        let repaymentMonthly = 0;
+        let repaymentTotal = 0;
+
+        if (mortgageType === "repayment") {
+            const monthlyRate = rate / 100 / 12;
+            const totalPayments = term * 12;
+
+            repaymentMonthly = amount * (monthlyRate * Math.pow(1 + monthlyRate, totalPayments)) /
+                                 (Math.pow(1 + monthlyRate, totalPayments) - 1);
+
+            repaymentTotal = repaymentMonthly * totalPayments;
+        } else if (mortgageType === "interest_only") {
+            // Interest-Only Mortgage
+            repaymentMonthly = amount * (rate / 100 / 12);
+            repaymentTotal = repaymentMonthly * term * 12;
+        }
+    
+        setResults({ repaymentTotal, repaymentMonthly });
+    };
+    
 
     return (
         <section className="mortage-calculator-container">
@@ -107,17 +126,30 @@ console.log(mortgageInfo)
                 <fieldset>
                     <legend>Mortgage Type</legend>
                     <label className="radio-group">
-                        <input type="radio" name="mortgage_type" value="repayment" />
+                        <input 
+                            type="radio" 
+                            name="mortgageType" 
+                            value="repayment"
+                            checked={mortgageInfo.mortgageType === "repayment"}
+                            onChange={handleChange}
+                        />
                         Repayment
                     </label>
                     <label className="radio-group">
-                        <input type="radio" name="mortgage_type" value="interest_only" />
+                        <input 
+                            type="radio" 
+                            name="mortgageType" 
+                            value="interest_only" 
+                            checked={mortgageInfo.mortgageType === "interest_only"}
+                            onChange={handleChange}
+                        />
                         Interest Only
                     </label>
                 </fieldset>
-            <button className="submit-button">Calculate Repayments</button>
+                <button type="submit" className="submit-button">
+                    Calculate Repayments
+                </button>
             </form>
         </section>
     )
-    
 }
