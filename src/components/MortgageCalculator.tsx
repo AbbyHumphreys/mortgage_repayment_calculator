@@ -41,6 +41,19 @@ export default function MorgageCalculator ({ setResults }: MortgageCalculatorPro
         }
     };
 
+    const handleReset = () => {
+        // Reset the form inputs and results
+        setMortgageInfo({
+            amount: 0,
+            term: 0,
+            rate: 0,
+            mortgageType: 'repayment',
+        });
+    
+        // Optionally clear the results
+        setResults({ repaymentTotal: 0, repaymentMonthly: 0 });
+    };
+
     const calculateMortgage = (e: React.FormEvent) => {
         e.preventDefault();
     
@@ -63,7 +76,10 @@ export default function MorgageCalculator ({ setResults }: MortgageCalculatorPro
             repaymentTotal = repaymentMonthly * term * 12;
         }
     
-        setResults({ repaymentTotal, repaymentMonthly });
+        setResults({
+            repaymentTotal: isNaN(repaymentTotal) ? 0 : repaymentTotal,
+            repaymentMonthly: isNaN(repaymentMonthly) ? 0 : repaymentMonthly,
+        });
     };
     
 
@@ -72,7 +88,7 @@ export default function MorgageCalculator ({ setResults }: MortgageCalculatorPro
             <form onSubmit={calculateMortgage}>
                 <div className="mortgage-header-container">
                     <h1>Mortgage Calculator</h1>
-                    <button className="reset-button">Clear All</button>
+                    <button className="reset-button" onClick={handleReset}>Clear All</button>
                 </div>
                 <fieldset className="input-group">
                     <label htmlFor="mortgage_amount">Mortgage Amount</label>

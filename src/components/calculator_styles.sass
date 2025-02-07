@@ -1,70 +1,85 @@
+@import "../styles/_variables"
+
 form, input[type=number], button
     width: 100%
 
-fieldset
+button
     border: none
+    background-color: $accent-color
+    color: $primary-color
+    padding: $padding-medium
+    border-radius: 20px
+
+    &:hover
+        background-color: $hover-accent-color
 
 label
     display: block
-    margin-bottom: 0.4rem
+    margin-bottom: $padding-small
     font-weight: 600
-    color: #122F3F
+    color: $primary-color
 
-button
-    border: none
-    background-color: #D7DA2F
-    color: #122F3F
-    padding: 0.6rem
-    border-radius: 20px
-
-button:hover
-    background-color: #c4c922
-
+// Mortgage calculator container styles
 .mortage-calculator-container
     width: 300px
-    background-color: #ffffff
-    padding: 1rem
-    border-radius: 10px
+    background-color: $background-color
+    padding: $padding-large
+    border-radius: $border-radius
     margin: 0
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1)
+    box-shadow: $box-shadow
 
     @media (max-width: 700px)
         border-radius: 0
 
-.mortgage-header-container
-    display: flex
-    justify-content: space-between
+    .mortgage-header-container
+        display: flex
+        justify-content: space-between
 
-    @media (max-width: 700px)
+        @media (max-width: 700px)
+            flex-direction: column
+            justify-content: start
+        
+        h1
+            min-width: 75%
+
+            @media (max-width: 700px)
+                margin-bottom: 0
+        
+        .reset-button, .reset-button:focus
+            background: none
+            text-align: end
+            text-decoration: underline
+            font-size: $padding-medium
+            margin-top: 0
+
+            @media (max-width: 700px)
+                text-align: start
+
+    .input-group
+        display: flex
         flex-direction: column
-        justify-content: start
+        gap: $padding-small
 
+    .input-wrapper
+        display: flex
+        align-items: center
+        justify-content: center
+        background-color: white
+        border: 1px solid #ccc
+        border-radius: $small-border-radius
+        margin-right: $padding-small
+        line-height: 0
+        padding: 0.1rem
 
-.input-group
-    display: flex
-    flex-direction: column
-    gap: 0.4rem
+    .half-column-container
+        display: flex
 
-.input-wrapper
-    display: flex
-    align-items: center
-    justify-content: center
-    background-color: white
-    border: 1px solid #ccc
-    border-radius: 5px
-    margin-right: 0.5rem
-    line-height: 0
-    padding: 0.1rem
-
-.half-column-container
-    display: flex
-
-.icon-wrapper
-    min-width: 2.5rem
-    text-align: center
-    background-color: #e4f3fe
-    color: #122F3F
-    padding: 0.2rem
+    .icon-wrapper
+        min-width: 2.5rem
+        text-align: center
+        background-color: $highlight-color
+        color: $primary-color
+        padding: 0.2rem
 
 fieldset
     border: none
@@ -82,22 +97,22 @@ legend
     justify-content: flex-start
     border: 2px solid #D3E1E9
     padding: 0.8rem
-    border-radius: 5px
+    border-radius: $small-border-radius
     width: 100%
     cursor: pointer
     font-weight: 600
-    color: #122F3F
+    color: $primary-color
 
 input[type="radio"]
-    accent-color: #D7DA2F
+    accent-color: $accent-color
 
 .radio-group:has(input[type="radio"]:checked)
     background:  #fbfbe9
-    border-color: #D7DA2F
+    border-color: $accent-color
 
 svg
     padding: 0.35rem
-    background-color: #e4f3fe
+    background-color: $highlight-color
     margin: 0
     color: #5a7d98
     height: 100%
@@ -106,21 +121,6 @@ input
     border: none
     background: transparent
     outline: none
-    font-size: 1rem
-    color: #122F3F
-
-.reset-button
-    background: none
-    text-align: end
-    text-decoration: underline
-    font-size: 0.6rem
-    margin-top: 0
-
-    @media (max-width: 700px)
-        text-align: start
-
-h1
-    min-width: 75%
-
-    @media (max-width: 700px)
-        margin-bottom: 0
+    font-size: 0.8rem
+    color: $primary-color
+    padding-left: $padding-small
