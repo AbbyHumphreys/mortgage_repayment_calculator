@@ -16,59 +16,73 @@ export default function MorgageCalculator({
   setResults,
 }: MortgageCalculatorProps) {
   const [mortgageInfo, setMortgageInfo] = useState<{
-    amount: number
-    term: number
-    rate: number
+    amount: string
+    term: string
+    rate: string
     mortgageType: MortgageType
   }>({
-    amount: 0,
-    term: 0,
-    rate: 0,
+    amount: '',
+    term: '',
+    rate: '',
     mortgageType: 'repayment',
   })
 
+  const [errors, setErrors] = useState<{
+    amount?: string
+    term?: string
+    rate?: string
+  }>({})
+
+  const validate = () => {
+    const nextErrors: { amount?: string; term?: string; rate?: string } = {}
+
+    const amount = Number(mortgageInfo.amount)
+    const term = Number(mortgageInfo.term)
+    const rate = Number(mortgageInfo.rate)
+
+    if (!mortgageInfo.amount || amount <= 0)
+      nextErrors.amount = 'Enter a mortgage amount greater than 0'
+    if (!mortgageInfo.term || term <= 0)
+      nextErrors.term = 'Enter a mortgage term in years'
+    if (mortgageInfo.rate === '' || rate < 0)
+      nextErrors.rate = 'Enter an interest rate (0 or more)'
+
+    setErrors(nextErrors)
+    return Object.keys(nextErrors).length === 0
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target
-    setMortgageInfo((prevData) => ({
-      ...prevData,
-      [name]: type === 'radio' ? value : value === '' ? 0 : parseFloat(value),
+
+    setMortgageInfo((prev) => ({
+      ...prev,
+      [name]: type === 'radio' ? value : value,
     }))
-  }
-
-  // Clear input when focused (if it's `0`)
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (e.target.value === '0') {
-      e.target.value = '' // Clear the input
-    }
-  }
-
-  // Restore `0` if input is empty on blur
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (e.target.value === '') {
-      setMortgageInfo((prevData) => ({
-        ...prevData,
-        [e.target.name]: 0,
-      }))
-    }
   }
 
   const handleReset = () => {
     // Reset the form inputs and results
     setMortgageInfo({
-      amount: 0,
-      term: 0,
-      rate: 0,
+      amount: '',
+      term: '',
+      rate: '',
       mortgageType: 'repayment',
     })
-
-    // Optionally clear the results
+    setErrors({})
     setResults({ repaymentTotal: 0, repaymentMonthly: 0 })
   }
 
   const onCalculateMortgage = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!validate()) return
 
-    const results = calculateMortgage(mortgageInfo)
+    const results = calculateMortgage({
+      amount: Number(mortgageInfo.amount),
+      term: Number(mortgageInfo.term),
+      rate: Number(mortgageInfo.rate),
+      mortgageType: mortgageInfo.mortgageType as 'repayment' | 'interest_only',
+    })
+
     setResults(results)
   }
 
@@ -77,7 +91,7 @@ export default function MorgageCalculator({
       <form onSubmit={onCalculateMortgage}>
         <div className='mortgage-header-container'>
           <h1>Mortgage Calculator</h1>
-          <button className='reset-button' onClick={handleReset}>
+          <button type='button' className='reset-button' onClick={handleReset}>
             Clear All
           </button>
         </div>
@@ -91,10 +105,16 @@ export default function MorgageCalculator({
               name='amount'
               value={mortgageInfo.amount}
               onChange={handleChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
+              placeholder='e.g. 250000'
+              aria-invalid={!!errors.amount}
+              aria-describedby={errors.amount ? 'amount-error' : undefined}
             />
           </div>
+          {errors.amount && (
+            <p id='amount-error' role='alert' className='field-error'>
+              {errors.amount}
+            </p>
+          )}
         </fieldset>
         <div className='half-column-container'>
           <fieldset>
@@ -106,13 +126,19 @@ export default function MorgageCalculator({
                 name='term'
                 value={mortgageInfo.term}
                 onChange={handleChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
+                placeholder='e.g. 15'
+                aria-invalid={!!errors.term}
+                aria-describedby={errors.term ? 'term-error' : undefined}
               />
               <div className='icon-wrapper'>
                 <p>years</p>
               </div>
             </div>
+            {errors.term && (
+              <p id='term-error' role='alert' className='field-error'>
+                {errors.term}
+              </p>
+            )}
           </fieldset>
           <fieldset>
             <label htmlFor='interest_rate'>Interest Rate</label>
@@ -123,11 +149,17 @@ export default function MorgageCalculator({
                 name='rate'
                 value={mortgageInfo.rate}
                 onChange={handleChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
+                placeholder='e.g. 2'
+                aria-invalid={!!errors.rate}
+                aria-describedby={errors.rate ? 'rate-error' : undefined}
               />
               <FontAwesomeIcon icon={faPercent} />
             </div>
+            {errors.rate && (
+              <p id='rate-error' role='alert' className='field-error'>
+                {errors.rate}
+              </p>
+            )}
           </fieldset>
         </div>
         <fieldset>

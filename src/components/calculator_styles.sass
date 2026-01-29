@@ -124,3 +124,15 @@ input
     font-size: 0.8rem
     color: $primary-color
     padding-left: $padding-small
+
+.field-error
+  margin-top: 0.35rem
+  font-size: 0.6rem
+  color: #b00020
+
+.input-wrapper input[aria-invalid="true"]
+  border: 1px solid #b00020
+  outline: none
+
+.input-wrapper input[aria-invalid="true"]:focus
+  box-shadow: 0 0 0 3px rgba(176, 0, 32, 0.2)
